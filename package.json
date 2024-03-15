@@ -1,0 +1,6 @@
+{
+    "name": "quickstart-production",
+    "dependencies": {
+        "@dataform/core": "^2.4.2"
+    }
+}
