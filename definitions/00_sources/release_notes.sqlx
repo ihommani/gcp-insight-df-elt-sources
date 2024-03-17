@@ -1,0 +1,7 @@
+config {
+    type: "declaration",
+    database: "bigquery-public-data",
+    schema: "google_cloud_release_notes",
+    name: "release_notes",
+    description: "Release notes by Google Cloud"
+}

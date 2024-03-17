@@ -3,5 +3,5 @@
     "assertionSchema": "dataform_assertions",
     "warehouse": "bigquery",
     "defaultDatabase": "gde-ihommani",
-    "defaultLocation": "europe-west1"
+    "defaultLocation": "us-west1"
 }
