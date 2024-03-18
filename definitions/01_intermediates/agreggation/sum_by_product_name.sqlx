@@ -1,0 +1,12 @@
+config {
+    type: "table",
+    description: "Accumulative sum(release) per product_name since the beginning"
+}
+
+SELECT
+  DISTINCT(product_name),
+  SUM(1) OVER (PARTITION BY product_name) AS total_number_of_release
+FROM
+  ${ref("rationalize_product_name")}
+ORDER BY
+  total_number_of_release DESC

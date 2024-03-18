@@ -1,0 +1,21 @@
+config {
+    type: "table",
+    description: "Accumulative sum(release) per product_name per type per month"
+}
+
+SELECT
+  DISTINCT(product_name),
+  release_note_type,
+  DATE(EXTRACT(YEAR
+    FROM
+      release_month), EXTRACT(MONTH
+    FROM
+      release_month), 01) AS release_month,
+  SUM(1) OVER (PARTITION BY product_name, release_note_type, DATE(EXTRACT(YEAR FROM release_month), EXTRACT(MONTH
+      FROM
+        release_month), 01)) AS total_number_of_release
+FROM
+  ${ref("rationalize_product_name")}
+ORDER BY
+  product_name,
+  release_month
