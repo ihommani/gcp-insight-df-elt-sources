@@ -1,0 +1,14 @@
+config {
+    type: "table",
+    description: "Release notes by broader categories"
+}
+
+SELECT
+  description,
+  release_note_type,
+  release_month,
+  ${gcp_service_categories.get_broad_category("product_name")} AS product_name,
+  product_id,
+  product_version_name
+FROM
+  ${ref("round_dates")}
