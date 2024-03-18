@@ -1,0 +1,23 @@
+config {
+    type: "table",
+    description: "Lag between two consecutive release date with mean, and standard deviation"
+}
+
+SELECT
+  product_name,
+  CAST(ROUND(STDDEV_SAMP(days_since_last_release)) AS int64)AS days_gap_standard_dev,
+  CAST(ROUND(AVG(days_since_last_release)) AS int64) AS avg_days_btw_2_releases
+FROM (
+  SELECT
+    product_name,
+    published_at,
+    LAG(published_at) OVER (PARTITION BY product_name ORDER BY published_at ASC) AS preceding_release_date,
+    DATE_DIFF(published_at, LAG(published_at) OVER (PARTITION BY product_name ORDER BY published_at ASC), DAY) AS days_since_last_release
+  FROM
+    ${ref("rationalize_product_name")} )
+WHERE
+  preceding_release_date IS NOT NULL
+GROUP BY
+  product_name
+ORDER BY
+  days_gap_standard_dev

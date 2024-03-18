@@ -7,6 +7,7 @@ SELECT
   description,
   release_note_type,
   release_month,
+  published_at,
   ${gcp_service_categories.get_broad_category("product_name")} AS product_name,
   product_id,
   product_version_name

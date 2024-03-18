@@ -11,6 +11,7 @@ SELECT
       published_at), EXTRACT(MONTH
     FROM
       published_at), 01) AS release_month,
+  published_at,
   product_name,
   product_id,
   product_version_name

@@ -1,0 +1,35 @@
+config {
+    type: "table",
+    description: "Most recent release per product_name (last value) less than 3 month (qualify)"
+}
+
+SELECT
+  DISTINCT(product_name),
+  release_date,
+  release_description,
+  second_release_date,
+  second_release_desc,
+  third_release_date,
+  third_release_desc
+FROM (
+  SELECT
+    product_name,
+    FIRST_VALUE(published_at) OVER w1 AS release_date,
+    FIRST_VALUE(description) OVER w1 AS release_description,
+    NTH_VALUE(published_at, 2) OVER w1 AS second_release_date,
+    NTH_VALUE(description, 2) OVER w1 AS second_release_desc,
+    NTH_VALUE(published_at, 3) OVER w1 AS third_release_date,
+    NTH_VALUE(description, 3) OVER w1 AS third_release_desc,
+  FROM
+    ${ref("rationalize_product_name")}
+  GROUP BY
+    product_name,
+    published_at,
+    description QUALIFY release_date IS NOT NULL
+    AND release_date > DATE_SUB(CURRENT_DATE, INTERVAL 3 MONTH)
+  WINDOW
+    w1 AS (
+    PARTITION BY
+      product_name
+    ORDER BY
+      published_at DESC ) )

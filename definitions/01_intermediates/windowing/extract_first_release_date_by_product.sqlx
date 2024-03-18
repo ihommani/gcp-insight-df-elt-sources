@@ -1,0 +1,12 @@
+config {
+    type: "table",
+    description: "First release note date of each product"
+}
+
+SELECT
+  DISTINCT(product_name),
+  FIRST_VALUE(release_month) OVER (PARTITION BY product_name ORDER BY release_month) AS initial_release_date
+FROM
+  ${ref("rationalize_product_name")}
+ORDER BY
+  product_name

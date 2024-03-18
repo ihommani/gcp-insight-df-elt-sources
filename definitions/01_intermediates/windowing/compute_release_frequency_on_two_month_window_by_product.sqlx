@@ -1,0 +1,15 @@
+config {
+    type: "table",
+    description: "Product release pulse. (7776000 number OF second IN 30 days)"
+}
+
+SELECT
+  DISTINCT(product_name),
+  release_month AS pivot_month,
+  COUNT(*) OVER (PARTITION BY product_name, release_month ORDER BY UNIX_SECONDS(PARSE_TIMESTAMP("%x",FORMAT_DATE('%x', release_month))) RANGE BETWEEN 7776000 PRECEDING
+    AND 7776000 FOLLOWING) AS total_number_of_release_on_preceding_and_following_month_window
+FROM
+  ${ref("rationalize_product_name")}
+ORDER BY
+  product_name,
+  release_month
