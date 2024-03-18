@@ -1,8 +1,0 @@
-config {
-    type: "view"
-}
-
-SELECT
-  *
-FROM
-  ${ref("release_notes")}
