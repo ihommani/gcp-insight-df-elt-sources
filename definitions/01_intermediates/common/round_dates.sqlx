@@ -1,0 +1,18 @@
+config {
+    type: "table",
+    description: "Release notes by month"
+}
+
+SELECT
+  description,
+  release_note_type,
+  DATE(EXTRACT(YEAR
+    FROM
+      published_at), EXTRACT(MONTH
+    FROM
+      published_at), 01) AS release_month,
+  product_name,
+  product_id,
+  product_version_name
+FROM
+  ${ref("release_notes_view")}
