@@ -1,0 +1,14 @@
+config {
+    type: "view",
+    description: "'Anti-corruption layer' view of the Google Cloud release notes"
+}
+
+SELECT
+  description,
+  release_note_type,
+  published_at,
+  product_name,
+  SAFE_CAST(product_id AS STRING) AS product_id,
+  product_version_name
+FROM
+  ${ref("release_notes")}
