@@ -1,0 +1,8 @@
+config {
+    type: "view",
+    materialized: true,
+    description: "Test",
+    tags: ["PULSE"]
+}
+
+select * from ${ref("extract_first_release_date_by_product")}

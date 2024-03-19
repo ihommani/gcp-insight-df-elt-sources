@@ -1,0 +1,8 @@
+config {
+    type: "view",
+    materialized: true,
+    description: "Test",
+    tags: ["PULSE"]
+}
+
+select * from ${ref("compute_mean_time_and_standard_deviation_between_two_releases_by_product")}

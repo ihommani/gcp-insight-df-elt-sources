@@ -1,0 +1,8 @@
+config {
+    type: "view",
+    materialized: true,
+    description: "Test",
+    tags: ["PULSE"]
+}
+
+select * from ${ref("compute_release_frequency_on_two_month_window_by_product")}
